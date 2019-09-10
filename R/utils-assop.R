@@ -7,5 +7,5 @@
 #' @keywords internal
 #' @export
 #' @importFrom data.table :=
-#' @usage col1 := col2
+#' @usage DT[, col1 := col2]
 NULL

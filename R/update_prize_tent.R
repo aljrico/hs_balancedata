@@ -93,12 +93,13 @@ update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadshee
       prizes_name[[pl]] <- prizes_list[[pl]] %>% stringr::str_remove_all('[0-9]') %>% unlist() %>% stringr::str_trim()
     }
     
-    weight <- design_table %>% 
+    weight <- 
+      100*(design_table %>% 
       .[mysteryBoxId == this_id] %>% 
       .[j, Probability] %>% 
       stringr::str_remove('%') %>% 
-      as.numeric() %>% 
-      `*`(100)
+      as.numeric()
+      )
     
     csv[i , (paste0('Loot ', j, ' Weight')) := weight]
     
