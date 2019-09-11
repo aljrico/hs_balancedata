@@ -12,7 +12,6 @@ library(shinyWidgets)
 library(shinyjs)
 library(tidyverse)
 library(data.table)
-library(hs.balancedata)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
