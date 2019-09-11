@@ -40,26 +40,26 @@ shinyUI(fluidPage(
            color: #FFF;
         }")),
 
-  # verticalTabsetPanel(
-  #   verticalTabPanel("Prize Tent", fluid = TRUE, box_height = "70px", color = '#b2ba11',
-  #     sidebarLayout(
-  #       sidebarPanel(
-  #         textInput("prize_tent.text.spreadsheet_name", "Spreadsheet Name", value = "(HS) Mysteryboxes"),
-  #         selectInput("prize_tent.combobox.game_location", "Game Folder Name", choices = c("homestreet", "spark")),
-  #         actionButton("prize_tent.button.update_prize_tent", "Update Prize Tent")
-  #       ),
-  #       mainPanel(
-  #         shinyjs::hidden(
-  #           div(
-  #             id = "loading_page",
-  #             class = "loading-content",
-  #             h2(class = "animated infinite pulse", "Loading data..."),
-  #             align = "center"
-  #           )
-  #         )
-  #       )
-  #     )
-  #   ),
+  verticalTabsetPanel(
+    # verticalTabPanel("Prize Tent", fluid = TRUE, box_height = "70px", color = '#b2ba11',
+    #   sidebarLayout(
+    #     sidebarPanel(
+    #       textInput("prize_tent.text.spreadsheet_name", "Spreadsheet Name", value = "(HS) Mysteryboxes"),
+    #       selectInput("prize_tent.combobox.game_location", "Game Folder Name", choices = c("homestreet", "spark")),
+    #       actionButton("prize_tent.button.update_prize_tent", "Update Prize Tent")
+    #     ),
+    #     mainPanel(
+    #       shinyjs::hidden(
+    #         div(
+    #           id = "loading_page",
+    #           class = "loading-content",
+    #           h2(class = "animated infinite pulse", "Loading data..."),
+    #           align = "center"
+    #         )
+    #       )
+    #     )
+    #   )
+    # ),
     ui_basic_info(id = 'Mystery Boxes'),
     ui_basic_info(id = 'TimedIAPs')
   )
