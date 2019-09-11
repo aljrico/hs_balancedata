@@ -2,5 +2,6 @@
 
 export("%>%")
 export(":=")
+export(runApp)
 importFrom(data.table,":=")
 importFrom(magrittr,"%>%")
