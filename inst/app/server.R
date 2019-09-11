@@ -16,9 +16,9 @@ update_balance_data_button <- function(input, output, session) {
   })
 
   observeEvent(input[["timediaps.button.update_data"]], {
-    shinyjs::show("loading_page")
+    shinyjs::show("timdeiaps.loading_page")
     hs.balancedata::update_timediaps(spreadsheet_name = input[["timediaps.text.spreadsheet_name"]], game_folder = input[["timediaps.combobox.game_location"]])
-    shinyjs::hide("loading_page")
+    shinyjs::hide("timediaps.loading_page")
 
     sendSweetAlert(
       session = session,

@@ -12,7 +12,7 @@ ui_basic_info <- function(id = 'Timed IAPs'){
                      mainPanel(
                        shinyjs::hidden(
                          div(
-                           id = "loading_page",
+                           id = paste0(small_id, ".loading_page"),
                            class = "loading-content",
                            h2(class = "animated infinite pulse", "Loading data..."),
                            align = "center"
