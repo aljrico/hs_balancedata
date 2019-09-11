@@ -1,3 +1,4 @@
+#' @export
 update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadsheet_tab_name = 'prizetent', game_folder = 'homestreet'){
   
   fill_gaps <- function(df){
