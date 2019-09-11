@@ -7,7 +7,7 @@ ui_basic_info <- function(id = 'Timed IAPs'){
                      sidebarPanel(
                        textInput(paste0(small_id , ".text.spreadsheet_name"), "Spreadsheet Name", value = paste0("(HS) ", small_id)),
                        selectInput(paste0(small_id, ".combobox.game_location"), "Game Folder Name", choices = c("homestreet", "spark")),
-                       actionButton(paste0(small_id, ".button.update_data"), paste0("Update ", id))
+                       actionButton(paste0(small_id, ".button.update_data"), 'Update Balance Data')
                      ),
                      mainPanel(
                        shinyjs::hidden(

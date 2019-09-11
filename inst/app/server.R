@@ -10,7 +10,7 @@ shinyServer(function(input, output, session) {
     sendSweetAlert(
       session = session,
       title = "Done!",
-      text = "Prize Tent Updated",
+      text = "Balance Data Updated",
       type = "success"
     )
   })
