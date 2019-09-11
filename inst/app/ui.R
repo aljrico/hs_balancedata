@@ -60,6 +60,6 @@ shinyUI(fluidPage(
         )
       )
     ),
-    ui_timediaps()
+    ui_basic_info(id = 'TimedIAPs')
   )
 ))
