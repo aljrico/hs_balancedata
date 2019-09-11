@@ -4,6 +4,9 @@ update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadshee
   # googlesheets::gs_auth(token = paste0(system.file('app', package = "hs.balancedata"), '/misc/aljrico_google_credentials.rds'))
   # googlesheets::gs_auth(new_user = TRUE)
   
+  url_to_authenticate_user <- googlesheets::gs_webapp_auth_url()
+  browseURL(url_to_authenticate_user)
+  
   fill_gaps <- function(df){
     df <- data.table::data.table(df)
     cols <- colnames(df)
