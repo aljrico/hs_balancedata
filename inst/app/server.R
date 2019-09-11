@@ -30,8 +30,7 @@ update_balance_data_button <- function(input, output, session) {
 }
 
 shinyServer(function(input, output, session) {
-
-
+  update_balance_data_button()
 
   # Close App when closing Browser Window
   session$onSessionEnded(function() {
