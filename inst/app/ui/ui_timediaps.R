@@ -1,4 +1,4 @@
-ui_basic_info <- function(id = 'TimedIAPs'){
+ui_basic_info <- function(id = 'Timed IAPs'){
   
   small_id <- tolower(stringr::str_remove_all(id, ' '))
   

@@ -2,9 +2,9 @@
 library(shiny)
 
 shinyServer(function(input, output, session) {
-  observeEvent(input$prize_tent.button.update_prize_tent, {
+  observeEvent(input$mysteryboxes.button.update_prize_tent, {
     shinyjs::show("loading_page")
-    hs.balancedata::update_prize_tent()
+    hs.balancedata::update_prize_tent(spreadsheet_name = input$mysteryboxes.text.spreadsheet_name, game_folder = input$mysteryboxes.combobox.game_location)
     shinyjs::hide("loading_page")
 
     sendSweetAlert(
