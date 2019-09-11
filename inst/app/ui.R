@@ -13,6 +13,8 @@ library(shinyjs)
 library(tidyverse)
 library(data.table)
 
+source('ui/ui_timediaps.R')
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   shinyjs::useShinyjs(),
@@ -58,6 +60,6 @@ shinyUI(fluidPage(
         )
       )
     ),
-    source('ui/ui_timediaps.R', local = TRUE)
+    ui_timediaps()
   )
 ))
