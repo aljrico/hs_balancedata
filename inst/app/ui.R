@@ -12,7 +12,6 @@ library(shinyWidgets)
 library(shinyjs)
 library(tidyverse)
 library(data.table)
-# source("source/update_prize_tent.R")
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
