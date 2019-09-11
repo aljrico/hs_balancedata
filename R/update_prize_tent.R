@@ -1,7 +1,7 @@
 #' @export
 update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadsheet_tab_name = 'prizetent', game_folder = 'homestreet'){
   
-  googlesheets::gs_auth(token = paste0(system.file('misc', package = "hs.balancedata"), 'aljrico_google_credentials.rds'))
+  googlesheets::gs_auth(token = paste0(system.file('app', package = "hs.balancedata"), '/misc/aljrico_google_credentials.rds'))
   
   
   fill_gaps <- function(df){
