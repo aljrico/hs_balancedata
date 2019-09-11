@@ -3,9 +3,9 @@ library(shiny)
 
 update_balance_data_button <- function(input, output, session) {
   observeEvent(input[["mysteryboxes.button.update_data"]], {
-    shinyjs::show("loading_page")
+    shinyjs::show("mysteryboxes.loading_page")
     hs.balancedata::update_prize_tent(spreadsheet_name = input$mysteryboxes.text.spreadsheet_name, game_folder = input$mysteryboxes.combobox.game_location)
-    shinyjs::hide("loading_page")
+    shinyjs::hide("mysteryboxes.loading_page")
 
     sendSweetAlert(
       session = session,
