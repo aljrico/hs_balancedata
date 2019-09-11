@@ -39,7 +39,7 @@ shinyUI(fluidPage(
         }")),
 
   verticalTabsetPanel(
-    verticalTabPanel("PrizeTent", fluid = TRUE, box_height = "70px", color = '#b2ba11',
+    verticalTabPanel("Prize Tent", fluid = TRUE, box_height = "70px", color = '#b2ba11',
       sidebarLayout(
         sidebarPanel(
           textInput("prize_tent.text.spreadsheet_name", "Spreadsheet Name", value = "(HS) Mysteryboxes"),
@@ -57,6 +57,7 @@ shinyUI(fluidPage(
           )
         )
       )
-    )
+    ),
+    source('ui/ui_timediaps.R', local = TRUE)
   )
 ))
