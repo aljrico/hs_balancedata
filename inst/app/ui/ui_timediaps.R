@@ -1,10 +1,13 @@
-ui_timediaps <- function(id = 'TimedIAPs'){
-  verticalTabPanel("TimedIAPs", fluid = TRUE, box_height = "70px", color = '#000000',
+ui_basic_info <- function(id = 'TimedIAPs'){
+  
+  small_id <- tolower(stringr::str_remove_all(id, ' '))
+  
+  verticalTabPanel(id, fluid = TRUE, box_height = "70px", color = '#000000',
                    sidebarLayout(
                      sidebarPanel(
-                       textInput("timediaps.text.spreadsheet_name", "Spreadsheet Name", value = "(HS) timediaps"),
-                       selectInput("timediaps.combobox.game_location", "Game Folder Name", choices = c("homestreet", "spark")),
-                       actionButton("timediaps.button.update_prize_tent", "Update TimedIAPs")
+                       textInput(paste0(small_id , ".text.spreadsheet_name"), "Spreadsheet Name", value = paste0("(HS) ", small_id)),
+                       selectInput(paste(small_id, ".combobox.game_location"), "Game Folder Name", choices = c("homestreet", "spark")),
+                       actionButton(paste0(small_id, "timediaps.button.update_prize_tent"), paste0("Update ", id))
                      ),
                      mainPanel(
                        shinyjs::hidden(
