@@ -2,8 +2,6 @@
 library(shiny)
 
 shinyServer(function(input, output, session) {
-    
-    
   observeEvent(input$prize_tent.button.update_prize_tent, {
     shinyjs::show("loading_page")
     hs.balancedata::update_prize_tent()
