@@ -1,5 +1,7 @@
 #' @export
 update_leaderboard_prizes <- function(spreadsheet_name = '(HS) Event Leaderboard Prizes', game_folder = 'homestreet'){
+  
+  hs.balancedata::gs_credentials()
 
 # Load Quest Spreadsheets
 spreadsheet_title <- spreadsheet_name
