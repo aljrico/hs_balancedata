@@ -16,38 +16,15 @@ update_balance_data_button <- function(input, output, session, name) {
     shinyjs::show(loading_name)
     update_functions[[name]](spreadsheet_name = input[[spreadsheet_name]], game_folder = input[[game_folder_name]])
     shinyjs::hide(loading_name)
+
+    sendSweetAlert(
+      session = session,
+      title = "Done!",
+      text = "Balance Data Updated",
+      type = "success"
+    )
   })
 }
-
-# update_balance_data_button <- function(input, output, session) {
-#
-#
-#   observeEvent(input[["mysteryboxes.button.update_data"]], {
-#     shinyjs::show("mysteryboxes.loading_page")
-#     hs.balancedata::update_prize_tent(spreadsheet_name = input$mysteryboxes.text.spreadsheet_name, game_folder = input$mysteryboxes.combobox.game_location)
-#     shinyjs::hide("mysteryboxes.loading_page")
-#
-#     sendSweetAlert(
-#       session = session,
-#       title = "Done!",
-#       text = "Balance Data Updated",
-#       type = "success"
-#     )
-#   })
-#
-#   observeEvent(input[["timediaps.button.update_data"]], {
-#     shinyjs::show("timediaps.loading_page")
-#     hs.balancedata::update_timediaps(spreadsheet_name = input[["timediaps.text.spreadsheet_name"]], game_folder = input[["timediaps.combobox.game_location"]])
-#     shinyjs::hide("timediaps.loading_page")
-#
-#     sendSweetAlert(
-#       session = session,
-#       title = "Done!",
-#       text = "Balance Data Updated",
-#       type = "success"
-#     )
-#   })
-# }
 
 shinyServer(function(input, output, session) {
   update_balance_data_button(input, output, session, name = "mysteryboxes")
