@@ -15,6 +15,9 @@ csv_location <- paste0('~/', game_folder, '/Assets/data/source/csv/leagues.csv')
 rewards_names <- c('Rainbow', 'Gold', 'Silver', 'Bronze')
 rewards_ids <- c(145001, 145002, 145003, 145004)
 
+rewards_names <- c('Bronze', 'Silver', 'Gold', 'Rainbow')
+rewards_ids   <- c(145004, 145003, 145002, 145001)
+
 leagues_names <- c('leagueStarter', 'leagueSapphire', 'leagueRuby', 'leagueDiamond')
 leagues_ids <- c('270011', '270012', '270013', '270014')
 
