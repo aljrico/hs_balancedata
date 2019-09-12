@@ -1,5 +1,5 @@
 #' @export
-update_leaderboard_prizes <- function(spreadsheet_name = '(HS) Event Leaderboard Prizes', game_folder = 'homestreet'){
+update_leaderboard_prizes <- function(spreadsheet_name = '(HS) leaderboards', game_folder = 'homestreet'){
   
   hs.balancedata::gs_credentials()
 
@@ -40,39 +40,43 @@ ruby_league$league <- 'leagueRuby'
 diamond_league$league <- 'leagueDiamond'
 
 complete_df <- starter_league %>% 
-  bind_rows(sapphire_league) %>% 
-  bind_rows(ruby_league) %>% 
-  bind_rows(diamond_league) %>% 
-  melt(id.vars = c('league_points', 'league')) %>% 
-  rename(reward = variable,
+  dplyr::bind_rows(sapphire_league) %>% 
+  dplyr::bind_rows(ruby_league) %>% 
+  dplyr::bind_rows(diamond_league) %>% 
+  data.table::melt(id.vars = c('league_points', 'league')) %>% 
+  dplyr::rename(reward = variable,
          amount = value) %>% 
-  mutate(amount = ifelse(is.na(amount), 0, amount)) %>% 
-  left_join(rewards_df) %>% 
-  left_join(leagues_df) %>% 
-  group_by(league_id, reward) %>% 
-  mutate(rank = 1:n())
+  dplyr::mutate(amount = ifelse(is.na(amount), 0, amount)) %>% 
+  dplyr::left_join(rewards_df) %>% 
+  dplyr::left_join(leagues_df) %>% 
+  dplyr::group_by(league_id, reward) %>% 
+  dplyr::mutate(rank = 1:n())
 
 
 leagues_csv <- data.table::fread(csv_location)
 
-new_csv <- leagues_csv %>% 
-  mutate_if(is.logical, as.numeric) %>% 
-  data.table()
+new_csv <- 
+  leagues_csv %>% 
+  dplyr::mutate_if(is.logical, as.numeric) %>% 
+  data.table::data.table()
 for(i in seq_along(leagues_names)){
   this_league <- leagues_names[[i]]
   
   rewards <- complete_df %>% 
-    filter(amount > 0) %>% 
-    filter(league == this_league) %>% 
-    group_by(reward_id, amount, reward) %>% 
-    summarise(min_rank = min(rank)) %>% 
-    arrange(min_rank)
+    dplyr::filter(amount > 0) %>%
+    dplyr::filter(league == this_league) %>% 
+    dplyr::group_by(rank) %>% 
+    dplyr::mutate(n_prizes = n_distinct(reward_id)) %>% 
+    dplyr::group_by(reward_id, amount, reward, n_prizes) %>% 
+    dplyr::summarise(min_rank = min(rank)) %>% 
+    dplyr::select(-n_prizes) %>% 
+    dplyr::arrange(min_rank)
   
   ranks <- rewards$min_rank %>% unique()
   
   for(k in seq_along(ranks)){
     rank_rewards <- rewards %>% 
-      filter(min_rank == ranks[[k]])
+      dplyr::filter(min_rank == ranks[[k]])
     
     n_rewards <- nrow(rank_rewards)
     
@@ -130,17 +134,17 @@ ruby_league$league <- 'leagueRuby'
 diamond_league$league <- 'leagueDiamond'
 
 complete_df <- starter_league %>% 
-  bind_rows(sapphire_league) %>% 
-  bind_rows(ruby_league) %>% 
-  bind_rows(diamond_league) %>% 
-  melt(id.vars = c('league_points', 'league')) %>% 
-  rename(reward = variable,
+  dplyr::bind_rows(sapphire_league) %>% 
+  dplyr::bind_rows(ruby_league) %>% 
+  dplyr::bind_rows(diamond_league) %>% 
+  data.table::melt(id.vars = c('league_points', 'league')) %>% 
+  dplyr::rename(reward = variable,
          amount = value) %>% 
-  mutate(amount = ifelse(is.na(amount), 0, amount)) %>% 
-  left_join(rewards_df) %>% 
-  left_join(leagues_df) %>% 
-  group_by(league_id, reward) %>% 
-  mutate(rank = 1:n())
+  dplyr::mutate(amount = ifelse(is.na(amount), 0, amount)) %>% 
+  dplyr::left_join(rewards_df) %>% 
+  dplyr::left_join(leagues_df) %>% 
+  dplyr::group_by(league_id, reward) %>% 
+  dplyr::mutate(rank = 1:n())
 
 
 
@@ -157,23 +161,25 @@ leagues_csv <- data.table::fread(csv_location)
 # this_event <- leagues_csv[, ..cols_to_keep]
 
 new_csv <- leagues_csv %>% 
-  mutate_if(is.logical, as.numeric) %>% 
+  dplyr::mutate_if(is.logical, as.numeric) %>% 
   data.table()
 for(i in seq_along(leagues_names)){
   this_league <- leagues_names[[i]]
   
   rewards <- complete_df %>% 
-    filter(amount > 0) %>% 
-    filter(league == this_league) %>% 
-    group_by(reward_id, amount, reward) %>% 
-    summarise(min_rank = min(rank)) %>% 
-    arrange(min_rank)
+    dplyr::filter(amount > 0) %>% 
+    dplyr::filter(league == this_league) %>% 
+    dplyr::group_by(rank) %>% 
+    dplyr::mutate(n_prizes = n_distinct(reward_id)) %>% 
+    dplyr::group_by(reward_id, amount, reward, n_prizes) %>% 
+    dplyr::summarise(min_rank = min(rank)) %>% 
+    dplyr::select(-n_prizes) %>% 
   
   ranks <- rewards$min_rank %>% unique()
   
   for(k in seq_along(ranks)){
     rank_rewards <- rewards %>% 
-      filter(min_rank == ranks[[k]])
+      dplyr::filter(min_rank == ranks[[k]])
     
     n_rewards <- nrow(rank_rewards)
     
