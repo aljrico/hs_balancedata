@@ -1,6 +1,21 @@
 #' @export
 update_leaderboard_prizes <- function(spreadsheet_name = '(HS) leaderboards', game_folder = 'homestreet'){
   
+  clean_rewards <- function(df){
+    # REMEMBER: THE TENNARY_ID ONLY WORKS IF THE MAXIMUM AMOUNT OF ANY PRIZE IS 100, IF IT HAPPENS TO HAVE MORE, THIS CODE MIGHT BREAK WITHOUT TELLING ANYONE
+    df %>% 
+      dplyr::filter(amount > 0) %>%
+      dplyr::group_by(rank) %>% 
+      dplyr::mutate(centenary_id = sum((100^as.numeric(as.character(reward_id) %>% str_remove_all('14500'))) * as.numeric(amount))) %>% 
+      # dplyr::mutate(n_prizes = n_distinct(reward_id)) %>% 
+      dplyr::group_by(reward_id, amount, reward, centenary_id) %>% 
+      dplyr::summarise(min_rank = min(rank)) %>% 
+      dplyr::select(-centenary_id) %>% 
+      dplyr::arrange(min_rank) %>% 
+      return()
+  }
+  
+  
   hs.balancedata::gs_credentials()
 
 # Load Quest Spreadsheets
@@ -61,16 +76,10 @@ new_csv <-
   data.table::data.table()
 for(i in seq_along(leagues_names)){
   this_league <- leagues_names[[i]]
-  
-  rewards <- complete_df %>% 
-    dplyr::filter(amount > 0) %>%
+  rewards <- 
+    complete_df %>% 
     dplyr::filter(league == this_league) %>% 
-    dplyr::group_by(rank) %>% 
-    dplyr::mutate(n_prizes = n_distinct(reward_id)) %>% 
-    dplyr::group_by(reward_id, amount, reward, n_prizes) %>% 
-    dplyr::summarise(min_rank = min(rank)) %>% 
-    dplyr::select(-n_prizes) %>% 
-    dplyr::arrange(min_rank)
+    clean_rewards()
   
   ranks <- rewards$min_rank %>% unique()
   
@@ -80,7 +89,7 @@ for(i in seq_along(leagues_names)){
     
     n_rewards <- nrow(rank_rewards)
     
-    new_csv[, paste0('prize loots 1 loot ', k, ' rank') := ranks[[k]]]
+    new_csv[i, paste0('prize loots 1 loot ', k, ' rank') := ranks[[k]]]
     
     for(j in 1:n_rewards){
       
@@ -165,15 +174,10 @@ new_csv <- leagues_csv %>%
   data.table()
 for(i in seq_along(leagues_names)){
   this_league <- leagues_names[[i]]
-  
-  rewards <- complete_df %>% 
-    dplyr::filter(amount > 0) %>% 
+  rewards <- 
+    complete_df %>% 
     dplyr::filter(league == this_league) %>% 
-    dplyr::group_by(rank) %>% 
-    dplyr::mutate(n_prizes = n_distinct(reward_id)) %>% 
-    dplyr::group_by(reward_id, amount, reward, n_prizes) %>% 
-    dplyr::summarise(min_rank = min(rank)) %>% 
-    dplyr::select(-n_prizes) %>% 
+    clean_rewards()
   
   ranks <- rewards$min_rank %>% unique()
   
@@ -183,7 +187,7 @@ for(i in seq_along(leagues_names)){
     
     n_rewards <- nrow(rank_rewards)
     
-    new_csv[, paste0('prize loots 2 loot ', k, ' rank') := ranks[[k]]]
+    new_csv[i, paste0('prize loots 2 loot ', k, ' rank') := ranks[[k]]]
     
     for(j in 1:n_rewards){
       
