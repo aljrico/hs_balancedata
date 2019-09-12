@@ -1,6 +1,6 @@
 #' @export
 update_timediaps <- function(spreadsheet_name = '(HS) timediaps', game_folder = 'homestreet'){
-  googlesheets::gs_auth(token = paste0(system.file('app', package = "hs.balancedata"), '/misc/aljrico_google_credentials.rds'))
+  hs.balancedata::gs_credentials()
   
   spreadsheet_name %>% 
     googlesheets::gs_title() %>% 

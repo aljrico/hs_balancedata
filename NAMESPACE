@@ -2,6 +2,7 @@
 
 export("%>%")
 export(":=")
+export(gs_credentials)
 export(runApp)
 export(update_prize_tent)
 export(update_timediaps)
