@@ -5,13 +5,15 @@ update_balance_data_button <- function(input, output, session, name) {
   update_functions <- list(
     mysteryboxes = hs.balancedata::update_prize_tent,
     timediaps = hs.balancedata::update_timediaps,
-    leaderboards = hs.balancedata::update_leaderboard_prizes
+    leaderboards = hs.balancedata::update_leaderboard_prizes,
+    localization = hs.balancedata::update_localization_file
   )
 
   button_name <- paste0(name, ".button.update_data")
   spreadsheet_name <- paste0(name, ".text.spreadsheet_name")
   game_folder_name <- paste0(name, ".combobox.game_location")
   loading_name <- paste0(name, ".loading_page")
+  
 
   observeEvent(input[[button_name]], {
     shinyjs::show(loading_name)
@@ -31,6 +33,7 @@ shinyServer(function(input, output, session) {
   update_balance_data_button(input, output, session, name = "mysteryboxes")
   update_balance_data_button(input, output, session, name = "timediaps")
   update_balance_data_button(input, output, session, name = "leaderboards")
+  update_balance_data_button(input, output, session, name = "localization")
 
   # Close App when closing Browser Window
   session$onSessionEnded(function() {
