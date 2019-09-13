@@ -43,6 +43,7 @@ shinyUI(fluidPage(
   verticalTabsetPanel(
     ui_basic_info(id = 'Mystery Boxes'),
     ui_basic_info(id = 'TimedIAPs'),
-    ui_basic_info(id = 'Leaderboards')
+    ui_basic_info(id = 'Leaderboards'),
+    ui_basic_info(id = 'Localization')
   )
 ))
