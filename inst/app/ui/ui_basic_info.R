@@ -7,6 +7,11 @@ ui_basic_info <- function(id = 'Timed IAPs'){
                      sidebarPanel(
                        textInput(paste0(small_id , ".text.spreadsheet_name"), "Spreadsheet Name", value = paste0("(HS) ", small_id)),
                        selectInput(paste0(small_id, ".combobox.game_location"), "Game Folder Name", choices = c("homestreet", "spark", "spark.git")),
+                       checkboxInput(paste0(small_id, '_checkbox_windows'), "I'm using Windows"),
+                       conditionalPanel(
+                         condition = paste0("input.", small_id, "_checkbox_windows == true"),
+                         textInput(paste0(small_id, ".text.user_name"), "Introduce your username (the same you use in your windows' folders)")
+                       ),
                        actionButton(paste0(small_id, ".button.update_data"), 'Update Balance Data')
                      ),
                      mainPanel(

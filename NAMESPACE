@@ -2,6 +2,7 @@
 
 export("%>%")
 export(":=")
+export(csv_source_path)
 export(gs_credentials)
 export(runApp)
 export(update_leaderboard_prizes)
