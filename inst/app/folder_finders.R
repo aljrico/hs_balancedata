@@ -1,3 +1,4 @@
+#' @export
 get_os <- function(){
   sysinf <- Sys.info()
   if (!is.null(sysinf)){
@@ -16,6 +17,8 @@ get_os <- function(){
   }
   tolower(os)
 }
+
+#' @export
 find_source_folder <- function(game_folder = NA){
   
   if(is.na(game_folder)){
@@ -46,6 +49,8 @@ find_source_folder <- function(game_folder = NA){
   source_folder <- origin_folders[origin_folders %>% check_condition()]
   return(source_folder)
 }
+
+#' @export
 find_game_folder_names <- function(){
   
   a <- find_source_folder() %>% 
@@ -59,6 +64,3 @@ find_game_folder_names <- function(){
   }
   return(game_folder)
 }
-
-
-gf_names <- find_game_folder_names()
