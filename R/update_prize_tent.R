@@ -2,6 +2,7 @@
 update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadsheet_tab_name = 'prizetent', game_folder = 'homestreet'){
   
   hs.balancedata::gs_credentials()
+  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
   # googlesheets::gs_auth(new_user = TRUE)
   
   # url_to_authenticate_user <- googlesheets::gs_webapp_auth_url()
@@ -29,13 +30,9 @@ update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadshee
     data.table::data.table()
   
   
-  
-  
-  
-  
   # mysteryboxes ------------------------------------------------------------
   
-  csv_location <- paste0('~/', game_folder,'/Assets/data/source/csv/prizetentmysteryboxes.csv')
+  csv_location <- paste0(source_folder, '/csv/prizetentmysteryboxes.csv')
   
   original_csv <- 
     data.table::fread(csv_location) %>% 
@@ -154,7 +151,7 @@ update_prize_tent <- function(spreadsheet_name = "(HS) Mysteryboxes", spreadshee
   
   # prod ----------------------------------------------------------
   
-  csv_location <- paste0('~/', game_folder, '/Assets/data/source/csv/prizetent_prod.csv')
+  csv_location <- paste0(source_folder, '/csv/prizetent_prod.csv')
   
   original_csv <- data.table::fread(csv_location) %>% dplyr::mutate_if(is.logical, as.numeric) %>% data.table::data.table()
   csv <- original_csv
