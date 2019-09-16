@@ -1,6 +1,7 @@
 ui_basic_info <- function(id = 'Timed IAPs'){
   
   small_id <- tolower(stringr::str_remove_all(id, ' '))
+  gf_names <- hs.balancedata::find_game_folder_names()
   
   verticalTabPanel(id = small_id, title = id, fluid = TRUE, box_height = "70px", color = '#000000',
                    sidebarLayout(
