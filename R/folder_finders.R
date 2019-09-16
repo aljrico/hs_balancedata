@@ -43,7 +43,7 @@ find_source_folder <- function(game_folder = NA) {
 
   while (sum(check_condition(origin_folders)) == 0) {
     origin_folders <- list.files(origin_folders, full.names = TRUE)
-    origin_folders <- origin_folders[!(origin_folders %>% str_detect("\.meta"))]
+    origin_folders <- origin_folders[!(origin_folders %>% str_detect(".meta"))]
   }
 
   source_folder <- origin_folders[origin_folders %>% check_condition()]
@@ -53,7 +53,7 @@ find_source_folder <- function(game_folder = NA) {
 #' @export
 find_game_folder_names <- function() {
   a <- find_source_folder() %>%
-    str_split("\/")
+    str_split("\\/")
 
   game_folder <- c()
 
