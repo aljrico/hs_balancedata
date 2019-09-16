@@ -2,6 +2,10 @@
 
 export("%>%")
 export(":=")
+export(csv_source_path)
+export(find_game_folder_names)
+export(find_source_folder)
+export(get_os)
 export(gs_credentials)
 export(runApp)
 export(update_leaderboard_prizes)

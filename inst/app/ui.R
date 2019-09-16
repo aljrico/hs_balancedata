@@ -14,6 +14,7 @@ library(tidyverse)
 library(data.table)
 
 source('ui/ui_basic_info.R')
+gf_names <- hs.balancedata::find_game_folder_names()
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
