@@ -21,7 +21,7 @@ shinyUI(fluidPage(
   shiny::includeCSS("www/animate.css"),
 
   tags$head(
-    tags$link(href = "https://fonts.googleapis.com/css?family=Fjalla+One|Roboto+Slab:300,400&display=swap", rel = "stylesheet"),
+    tags$link(href = "https://fonts.googleapis.com/css?family=Fjalla+One|Lato|Roboto+Slab&display=swap", rel = "stylesheet"),
     tags$link(href = "styles.css", rel = "stylesheet", type = "text/css")
   ),
 

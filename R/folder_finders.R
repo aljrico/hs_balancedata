@@ -37,6 +37,21 @@ find_source_folder <- function(game_folder = NA) {
 
   if (get_os() == "windows") {
     origin_folders <- list.files("C:/Users", full.names = TRUE)
+    
+    if (is.na(game_folder)) {
+      check_condition <- function(x) {
+        x %>%
+          str_detect("Assets/data") %>%
+          return()
+      }
+    } else {
+      check_condition <- function(x) {
+        x %>%
+          str_detect(paste0(game_folder, "/Assets/data")) %>%
+          return()
+      }
+    }
+    
   } else {
     origin_folders <- list.files("~", full.names = TRUE)
   }
