@@ -14,6 +14,7 @@ library(tidyverse)
 library(data.table)
 
 source('ui/ui_basic_info.R')
+source('folder_finders.R')
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(

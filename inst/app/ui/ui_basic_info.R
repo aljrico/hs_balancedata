@@ -6,7 +6,7 @@ ui_basic_info <- function(id = 'Timed IAPs'){
                    sidebarLayout(
                      sidebarPanel(
                        textInput(paste0(small_id , ".text.spreadsheet_name"), "Spreadsheet Name", value = paste0("(HS) ", small_id)),
-                       selectInput(paste0(small_id, ".combobox.game_location"), "Game Folder Name", choices = c("homestreet", "spark", "spark.git")),
+                       selectInput(paste0(small_id, ".combobox.game_location"), "Game Folder Name", choices = gf_names),
                        checkboxInput(paste0(small_id, '_checkbox_windows'), "I'm using Windows"),
                        conditionalPanel(
                          condition = paste0("input.", small_id, "_checkbox_windows == true"),

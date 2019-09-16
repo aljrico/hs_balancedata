@@ -12,8 +12,12 @@ csv_source_path <- function(windows = FALSE, game_folder, user_name = NA){
 find_windows_path <- function(game_folder){
   user_folders <- list.files('C:/Users/', full.names = TRUE)
   for(fs in user_folders){
-    if(file.exists(paste0(fs, '/', game_folder, '/Assets'))){
-      
+    full_path <- paste0(fs, '/', game_folder, '/Assets/data/source')
+    if(file.exists(full_path)){
+      user <- fs %>% str_remove('C:/Users/')
+      return(user)
     }
   }
+  print('No folder found')
+  return(NA)
 }
