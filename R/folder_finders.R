@@ -63,3 +63,19 @@ find_game_folder_names <- function() {
   }
   return(game_folder)
 }
+
+#' @export
+find_economy_document_folder <- function(game_folder = NA){
+  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
+  economy_folder <- source_folder %>% stringr::str_replace('/Assets/data/source', '/pm')
+}
+
+#' @export
+find_economy_documents <- function(game_folder = NA){
+  
+  economy_folder <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
+  
+  economy_folder %>% 
+    list.files(pattern = '*.xlsx') %>% 
+    return()
+}

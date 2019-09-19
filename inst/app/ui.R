@@ -44,6 +44,7 @@ shinyUI(fluidPage(
     ui_basic_info(id = 'Mystery Boxes'),
     ui_basic_info(id = 'TimedIAPs'),
     ui_basic_info(id = 'Leaderboards'),
-    ui_basic_info(id = 'Localization')
+    ui_basic_info(id = 'Localization'),
+    ui_basic_info(id = 'Economy')
   )
 ))
