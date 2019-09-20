@@ -20,7 +20,7 @@ update_balance_data_button <- function(input, output, session, name) {
     shinyjs::show(loading_name)
     
     if(name == 'economy'){
-      update_functions[[name]](document == input[['economy.combobox.economy_file']], game_folder = input[[game_folder_name]])
+      update_functions[[name]](document = input[['economy.combobox.economy_file']], game_folder = input[[game_folder_name]])
     }else{
       update_functions[[name]](spreadsheet_name = input[[spreadsheet_name]], game_folder = input[[game_folder_name]]) 
     }

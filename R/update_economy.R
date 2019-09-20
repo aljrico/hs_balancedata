@@ -18,9 +18,7 @@ update_economy <- function(document, game_folder){
     'bingoevents_prod.csv',
     'bingoeventmysteryboxes.csv',
     
-    'guildeventmysteryboxes.csv',
-    'prizetent_prod.csv',
-    'prizetentmysteryboxes.csv'
+    'guildeventmysteryboxes.csv'
   )
   convert_na <- function(x) ifelse(x == 'NA', NA, x) %>% return()
   
@@ -32,57 +30,54 @@ update_economy <- function(document, game_folder){
     if(sheet_name == 'ingredients_prod.csv'){
       
       this_sheet <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 4) %>% 
-        mutate_if(is.numeric, as.integer)
+        readxl::read_excel(sheet = sheet_name, skip = 4) %>% 
+        dplyr::mutate_if(is.numeric, as.integer)
       
       max_col <- which(colnames(this_sheet) == 'skipCash Ratio') - 1
       
       to_write <- this_sheet[, 1:max_col]
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.') %>% str_trim()
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.') %>% stringr::str_trim()
       to_write <- to_write[ , -which(names(to_write) %in% c(""))]
     }
     if(sheet_name == 'ingredientsbingoevent.csv'){
       this_sheet <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        filter(!is.na(`# ingredient id`))
-      
-      # Acceptance Test
-      this_sheet %>% check_bingo_product_names()
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::filter(!is.na(`# ingredient id`))
       
       max_col <- which(colnames(this_sheet) == 'PM') - 3
       
       to_write <- this_sheet[, 1:max_col]
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.') %>% str_trim()
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.') %>% stringr::str_trim()
     }
     if(sheet_name == 'products_prod.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 1) %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        mutate_if(is.character, str_trim) %>% 
-        mutate_if(is.character, convert_na)
+        readxl::read_excel(sheet = sheet_name, skip = 1) %>% 
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::mutate_if(is.character, stringr::str_trim) %>% 
+        dplyr::mutate_if(is.character, convert_na)
       
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
       
     }
     if(sheet_name == 'thoughts_prod.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        mutate_if(is.character, str_trim) %>% 
-        mutate_if(is.character, convert_na)
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::mutate_if(is.character, stringr::str_trim) %>% 
+        dplyr::mutate_if(is.character, convert_na)
       
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'eventworkstations.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2)
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+        readxl::read_excel(sheet = sheet_name, skip = 2)
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'workstationproducts.csv'){
       this_sheet <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        filter(`#buildingitemid` != 'x') 
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::filter(`#buildingitemid` != 'x') 
       
       max_col <- 11
       
@@ -90,76 +85,76 @@ update_economy <- function(document, game_folder){
     }
     if(sheet_name == 'guildeventorders.csv'){
       this_sheet <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, format, scientific = FALSE)
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE)
       
       max_col <- which(colnames(this_sheet) == 'Unique Item Count Weight 5-4') 
       
       to_write <- this_sheet[, 1:max_col]
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'guildeventpredefinedorders.csv'){
       this_sheet <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, as.integer)
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, as.integer)
       
       max_col <- which(colnames(this_sheet) == 'ingredient count 4')
       
       to_write <- this_sheet[, 1:max_col]
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'guildevents_prod.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, as.integer)
-      # colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, as.integer)
+      # colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'bingoevents_prod.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 3)
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+        readxl::read_excel(sheet = sheet_name, skip = 3)
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'bingoeventmysteryboxes.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        mutate_if(is.character, str_trim) %>% 
-        mutate_if(is.character, convert_na)
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::mutate_if(is.character, stringr::str_trim) %>% 
+        dplyr::mutate_if(is.character, convert_na)
       
       
       
       
-      colnames(to_write) <- to_write %>% colnames() %>% str_remove_all("\\.[^.]*$") %>% str_remove_all('\\.')
+      colnames(to_write) <- to_write %>% colnames() %>% stringr::str_remove_all("\\.[^.]*$") %>% stringr::str_remove_all('\\.')
     }
     if(sheet_name == 'guildeventmysteryboxes.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        mutate_if(is.character, str_trim) %>% 
-        mutate_if(is.character, convert_na)
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::mutate_if(is.character, stringr::str_trim) %>% 
+        dplyr::mutate_if(is.character, convert_na)
     }
     if(sheet_name == 'prizetent_prod.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
         .[, 1:13] %>% 
         .[rowSums(is.na(.)) != ncol(.), ] %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        mutate_if(is.character, str_trim) %>% 
-        mutate_if(is.character, convert_na)
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::mutate_if(is.character, stringr::str_trim) %>% 
+        dplyr::mutate_if(is.character, convert_na)
     }
     if(sheet_name == 'prizetentmysteryboxes.csv'){
       to_write <- spark_economy_file %>% 
-        read_excel(sheet = sheet_name, skip = 2) %>% 
+        readxl::read_excel(sheet = sheet_name, skip = 2) %>% 
         .[rowSums(is.na(.)) != ncol(.), ] %>% 
-        mutate_if(is.numeric, format, scientific = FALSE) %>% 
-        mutate_if(is.character, str_trim) %>% 
-        mutate_if(is.character, convert_na)
+        dplyr::mutate_if(is.numeric, format, scientific = FALSE) %>% 
+        dplyr::mutate_if(is.character, stringr::str_trim) %>% 
+        dplyr::mutate_if(is.character, convert_na)
     }
     
     cat(paste0('... ', sheet_name, ' ... \n'))
     
     to_write %>% 
-      fwrite(
+      data.table::fwrite(
         paste0('~/homestreet/Assets/data/source/csv/', sheet_name),
         na = ''
       )
