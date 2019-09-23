@@ -13,6 +13,8 @@ library(shinyjs)
 library(tidyverse)
 library(data.table)
 
+
+source('error_class')
 source('ui/ui_basic_info.R')
 
 # Define UI for application that draws a histogram
