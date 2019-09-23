@@ -24,13 +24,13 @@ find_source_folder <- function(game_folder = NA) {
   if (is.na(game_folder)) {
     check_condition <- function(x) {
       x %>%
-        str_detect("Assets/data/source") %>%
+        stringr::str_detect("Assets/data/source") %>%
         return()
     }
   } else {
     check_condition <- function(x) {
       x %>%
-        str_detect(paste0(game_folder, "/Assets/data/source")) %>%
+        stringr::str_detect(paste0(game_folder, "/Assets/data/source")) %>%
         return()
     }
   }
@@ -43,7 +43,7 @@ find_source_folder <- function(game_folder = NA) {
 
   while (sum(check_condition(origin_folders)) == 0) {
     origin_folders <- list.files(origin_folders, full.names = TRUE)
-    origin_folders <- origin_folders[!(origin_folders %>% str_detect('.meta'))]
+    origin_folders <- origin_folders[!(origin_folders %>% stringr::str_detect('.meta'))]
   }
 
   source_folder <- origin_folders[origin_folders %>% check_condition()]
@@ -53,7 +53,7 @@ find_source_folder <- function(game_folder = NA) {
 #' @export
 find_game_folder_names <- function() {
   a <- find_source_folder() %>%
-    str_split("\\/")
+    stringr::str_split("\\/")
 
   game_folder <- c()
 
