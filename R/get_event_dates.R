@@ -1,8 +1,7 @@
 #' @export
 get_event_dates <- function(game_folder) {
-
-  generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace('data/source', 'data/generated')
-  x_file <- generated_folder %>% paste0('/xml/times_prod.xml')
+  generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace("data/source", "data/generated")
+  x_file <- generated_folder %>% paste0("/xml/times_prod.xml")
   x <- xml2::read_xml(x_file)
 
   # Dates
