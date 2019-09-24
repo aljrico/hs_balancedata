@@ -1,3 +1,4 @@
+#' @export
 update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "homestreet", economy_file, release_version) {
   
   hs.balancedata::gs_credentials()
@@ -29,9 +30,8 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
       ) %>% 
       return()
   }
-
-  error_msg <- new('appError', error_msg = 'Spreadsheet does not exist with this name.')
-  class(error_msg) == 'appError'
+  
+  if(length(which_ids_are_new) == 0) return(new('appError', error_msg = 'No new Stories ID to be found.'))
   
   return(NA)
 }

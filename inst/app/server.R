@@ -10,6 +10,7 @@ shinyServer(function(input, output, session) {
   update_balance_data_button(input, output, session, name = "leaderboards")
   update_balance_data_button(input, output, session, name = "localization")
   update_balance_data_button(input, output, session, name = "economy")
+  update_balance_data_button(input, output, session, name = "stories")
 
   source("ui/ui_pick_economy_document.R", local = TRUE)
 

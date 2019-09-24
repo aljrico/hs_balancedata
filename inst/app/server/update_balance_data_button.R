@@ -7,7 +7,8 @@ update_balance_data_button <- function(input, output, session, name) {
     timediaps = hs.balancedata::update_timediaps,
     leaderboards = hs.balancedata::update_leaderboard_prizes,
     localization = hs.balancedata::update_localization_file,
-    economy = hs.balancedata::update_economy
+    economy = hs.balancedata::update_economy,
+    stories = hs.balancedata::update_stories
   )
   
   button_name <- paste0(name, ".button.update_data")
@@ -20,7 +21,9 @@ update_balance_data_button <- function(input, output, session, name) {
     shinyjs::show(loading_name)
     
     if(name == 'economy'){
-      update_functions[[name]](document = input[['economy.combobox.economy_file']], game_folder = input[[game_folder_name]])
+      update_functions[[name]](document = input[['combobox.economy_file']], game_folder = input[[game_folder_name]])
+    }else if(name == 'stories'){
+      update_functions[[name]](document = input[['combobox.economy_file']], game_folder = input[[game_folder_name]])
     }else{
       sh_exists <- check_spreadsheet_existence(sh_name = input[[spreadsheet_name]])
       if(sh_exists){

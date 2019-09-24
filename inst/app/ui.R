@@ -14,8 +14,9 @@ library(tidyverse)
 library(data.table)
 
 
-source('error_class')
+source('error_class.R')
 source('ui/ui_basic_info.R')
+source('ui/ui_stories.R')
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -47,6 +48,7 @@ shinyUI(fluidPage(
     ui_basic_info(id = 'TimedIAPs'),
     ui_basic_info(id = 'Leaderboards'),
     ui_basic_info(id = 'Localization'),
-    ui_basic_info(id = 'Economy')
+    ui_basic_info(id = 'Economy'),
+    ui_stories(id = 'Stories')
   )
 ))
