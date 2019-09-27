@@ -12,7 +12,6 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   spark_economy_file <- paste0(economy_path, '/', document)
   file_version <- paste0('seasonalquests_prod.csv (0.', release_version, ')')
   
-  
   # Load Spreadsheets
   stories_sheet        <- spreadsheet_name %>% googlesheets::gs_title() 
   design_table         <- stories_sheet %>% googlesheets::gs_read(ws = 'seasonal_design')
