@@ -72,10 +72,8 @@ find_economy_document_folder <- function(game_folder = NA){
 
 #' @export
 find_economy_documents <- function(game_folder = NA){
-  
   economy_folder <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
-  
-  economy_folder %>% 
-    list.files(pattern = '*.xlsx') %>% 
-    return()
+  all_xlsx <- economy_folder %>% list.files(pattern = '*.xlsx') 
+  saved_xlsx <- all_xlsx[!all_xlsx %>% str_detect('\\$')] # Removes files containing '$' in their name. As they're usually are temporary unsaved files.
+  return(saved_xlsx)
 }
