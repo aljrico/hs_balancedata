@@ -90,6 +90,31 @@ update_quest_script_ids <- function(new_quest, seasonalquest_prod, quest_id, thi
   new_quest[, `end script id` := NA]
   new_quest[, `expire script id` := NA]
   
+  script_ids_array <- script_ids %>% 
+    dplyr::filter(script_name %>% stringr::str_detect(this_event)) %>% 
+    dplyr::filter(script_name %>% stringr::str_detect('Intro')) %>% 
+    .$id
   
+  if(length(script_ids_array) > 0){
+    if(max(as.numeric(script_ids_array)) > last_script){
+      if(this_chapter > 1 & !is.na(this_chapter)){
+        new_script <- script_ids_array[[this_chapter]]
+      }else{
+        if(is.na(this_chapter)){
+          new_script <- last_script + 1
+        }else{
+          new_script <- script_ids_array[[1]]
+        }
+      }
+    }else{
+      new_script <- last_script + 1
+    }
+  }else{
+    new_script <- script_ids %>% arrange(id) %>% .$id %>% as.numeric() %>% max() %>% `+`(1)
+  }
+  
+  if(!is.na(this_quest_human$`Intro Text`)){
+    new_quest[, `start script id` := new_script]
+  }
   
 }
