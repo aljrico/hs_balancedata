@@ -1,5 +1,7 @@
 update_balance_data_button <- function(input, output, session, name) {
   
+  name <- tolower(stringr::str_remove_all(name, " "))
+  
   there_has_been_an_error <- FALSE
   
   update_functions <- list(
@@ -13,12 +15,12 @@ update_balance_data_button <- function(input, output, session, name) {
   
   button_name <- paste0(name, ".button.update_data")
   spreadsheet_name <- paste0(name, ".text.spreadsheet_name")
-  game_folder_name <- paste0(name, ".combobox.game_location")
+  game_folder_name <- "combobox.game_location"
   loading_name <- paste0(name, ".loading_page")
   
   
   observeEvent(input[[button_name]], {
-    shinyjs::show(loading_name)
+    waiter::show_waiter(waiter::spin_folding_cube())
     
     if(name == 'economy'){
       update_functions[[name]](document = input[['combobox.economy_file']], game_folder = input[[game_folder_name]])
@@ -39,7 +41,7 @@ update_balance_data_button <- function(input, output, session, name) {
         )
       }
     }
-    shinyjs::hide(loading_name)
+    waiter::hide_waiter()
     
     if(!there_has_been_an_error){
       sendSweetAlert(
