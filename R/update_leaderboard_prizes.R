@@ -4,13 +4,15 @@ update_leaderboard_prizes <- function(spreadsheet_name = "(HS) leaderboards", ga
     # REMEMBER: THE TENNARY_ID ONLY WORKS IF THE MAXIMUM AMOUNT OF ANY PRIZE IS 100, IF IT HAPPENS TO HAVE MORE, THIS CODE MIGHT BREAK WITHOUT TELLING ANYONE
     df %>%
       dplyr::filter(amount > 0) %>%
+      dplyr::mutate(reward_id = ifelse(is.na(reward_id), 0, reward_id)) %>% 
       dplyr::group_by(rank) %>%
-      dplyr::mutate(centenary_id = sum((100^as.numeric(as.character(reward_id) %>% str_remove_all("14500"))) * as.numeric(amount))) %>%
+      dplyr::mutate(centenary_id =     sum((100^as.numeric(as.character(reward_id) %>% str_remove_all("14500") %>% str_remove_all("4600"))) * as.numeric(amount)), na.rm = TRUE) %>%
       # dplyr::mutate(n_prizes = n_distinct(reward_id)) %>%
       dplyr::group_by(reward_id, amount, reward, centenary_id) %>%
       dplyr::summarise(min_rank = min(rank)) %>%
       dplyr::select(-centenary_id) %>%
       dplyr::arrange(min_rank) %>%
+      dplyr::filter(reward_id != 0) %>%
       return()
   }
 
