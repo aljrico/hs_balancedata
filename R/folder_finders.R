@@ -42,7 +42,6 @@ find_source_folder <- function(game_folder = NA) {
   }
 
   counter_finding_game_folder <- 0
-  
   while (sum(check_condition(origin_folders)) == 0) {
     origin_folders <- list.files(origin_folders, full.names = TRUE)
     origin_folders <- origin_folders[!(origin_folders %>% stringr::str_detect('.meta'))]
@@ -50,7 +49,6 @@ find_source_folder <- function(game_folder = NA) {
     counter_finding_game_folder <- counter_finding_game_folder + 1
     if(counter_finding_game_folder > 1e4) stop('No game was found.')
   }
-  cat(paste0(counter_finding_game_folder), '... /n')
 
   source_folder <- origin_folders[origin_folders %>% check_condition()]
   return(source_folder)
