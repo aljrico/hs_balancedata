@@ -4,13 +4,17 @@ update_leaderboard_prizes <- function(spreadsheet_name = "(HS) leaderboards", ga
     # REMEMBER: THE TENNARY_ID ONLY WORKS IF THE MAXIMUM AMOUNT OF ANY PRIZE IS 100, IF IT HAPPENS TO HAVE MORE, THIS CODE MIGHT BREAK WITHOUT TELLING ANYONE
     df %>%
       dplyr::filter(amount > 0) %>%
+      dplyr::mutate(reward_id = ifelse(is.na(reward_id), 0, reward_id)) %>% 
       dplyr::group_by(rank) %>%
-      dplyr::mutate(centenary_id = sum((100^as.numeric(as.character(reward_id) %>% str_remove_all("14500"))) * as.numeric(amount))) %>%
+      dplyr::mutate(centenary_id = sum((100^as.numeric(as.character(reward_id) %>% str_remove_all("14500") %>% str_remove_all("4600"))) * as.numeric(amount)), na.rm = TRUE) %>%
       # dplyr::mutate(n_prizes = n_distinct(reward_id)) %>%
       dplyr::group_by(reward_id, amount, reward, centenary_id) %>%
       dplyr::summarise(min_rank = min(rank)) %>%
       dplyr::select(-centenary_id) %>%
       dplyr::arrange(min_rank) %>%
+      dplyr::filter(reward_id != 0 | reward %in% c('Cash', 'Coins')) %>%
+      ungroup() %>% 
+      dplyr::mutate(reward_id = ifelse(reward_id == 0, NA, reward_id)) %>% 
       return()
   }
 
@@ -96,10 +100,13 @@ update_leaderboard_prizes <- function(spreadsheet_name = "(HS) leaderboards", ga
 
       new_csv[i, paste0("prize loots 1 loot ", k, " rank") := ranks[[k]]]
 
+      reward_position <- 1
+      
       for (j in 1:n_rewards) {
         if (!is.na(rank_rewards[j, ]$reward_id)) {
-          new_csv[i, paste0("prize loots 1 loot ", k, " item ", j, " id") := rank_rewards[j, ]$reward_id]
-          new_csv[i, paste0("prize loots 1 loot ", k, " item ", j, " count") := rank_rewards[j, ]$amount %>% as.numeric()]
+          new_csv[i, paste0("prize loots 1 loot ", k, " item ", reward_position, " id") := rank_rewards[j, ]$reward_id]
+          new_csv[i, paste0("prize loots 1 loot ", k, " item ", reward_position, " count") := rank_rewards[j, ]$amount %>% as.numeric()]
+          reward_position <- reward_position + 1
         } else {
           if (tolower(rank_rewards[j, ]$reward) == "cash") {
             new_csv[i, paste0("prize loots 1 loot ", k, " cash amount") := rank_rewards[j, ]$amount %>% as.numeric()]
@@ -184,7 +191,7 @@ update_leaderboard_prizes <- function(spreadsheet_name = "(HS) leaderboards", ga
     this_league <- leagues_names[[i]]
     rewards <-
       complete_df %>%
-      dplyr::filter(league == this_league) %>%
+      dplyr::filter(league == this_league) %>% 
       clean_rewards()
 
     ranks <- rewards$min_rank %>% unique()
@@ -196,11 +203,14 @@ update_leaderboard_prizes <- function(spreadsheet_name = "(HS) leaderboards", ga
       n_rewards <- nrow(rank_rewards)
 
       new_csv[i, paste0("prize loots 2 loot ", k, " rank") := ranks[[k]]]
+      
+      reward_position <- 1
 
       for (j in 1:n_rewards) {
         if (!is.na(rank_rewards[j, ]$reward_id)) {
-          new_csv[i, paste0("prize loots 2 loot ", k, " item ", j, " id") := rank_rewards[j, ]$reward_id]
-          new_csv[i, paste0("prize loots 2 loot ", k, " item ", j, " count") := rank_rewards[j, ]$amount %>% as.numeric()]
+          new_csv[i, paste0("prize loots 2 loot ", k, " item ", reward_position, " id") := rank_rewards[j, ]$reward_id]
+          new_csv[i, paste0("prize loots 2 loot ", k, " item ", reward_position, " count") := rank_rewards[j, ]$amount %>% as.numeric()]
+          reward_position <- reward_position + 1
         } else {
           if (tolower(rank_rewards[j, ]$reward) == "cash") {
             new_csv[i, paste0("prize loots 2 loot ", k, " cash amount") := rank_rewards[j, ]$amount %>% as.numeric()]

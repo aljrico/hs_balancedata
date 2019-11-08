@@ -21,7 +21,11 @@ Imports:
     zoo,
     stringr,
     shiny,
-    waiter
+    waiter,
+    xml2,
+    lubridate,
+    purrr,
+    safer
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)
