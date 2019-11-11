@@ -41,9 +41,13 @@ find_source_folder <- function(game_folder = NA) {
     origin_folders <- list.files("~", full.names = TRUE)
   }
 
+  counter_finding_game_folder <- 0
   while (sum(check_condition(origin_folders)) == 0) {
     origin_folders <- list.files(origin_folders, full.names = TRUE)
     origin_folders <- origin_folders[!(origin_folders %>% stringr::str_detect('.meta'))]
+    
+    counter_finding_game_folder <- counter_finding_game_folder + 1
+    if(counter_finding_game_folder > 1e4) stop('No game was found.')
   }
 
   source_folder <- origin_folders[origin_folders %>% check_condition()]
@@ -74,6 +78,6 @@ find_economy_document_folder <- function(game_folder = NA){
 find_economy_documents <- function(game_folder = NA){
   economy_folder <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
   all_xlsx <- economy_folder %>% list.files(pattern = '*.xlsx') 
-  saved_xlsx <- all_xlsx[!all_xlsx %>% str_detect('\\$')] # Removes files containing '$' in their name. As they're usually are temporary unsaved files.
+  saved_xlsx <- all_xlsx[!all_xlsx %>% str_detect('\\$')] # Removes files containing '$' in their name. As they're usually temporary unsaved files.
   return(saved_xlsx)
 }
