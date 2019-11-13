@@ -22,6 +22,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   economy_path <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
   spark_economy_file <- paste0(economy_path, "/", economy_file)
   file_version <- paste0("seasonalquests_prod.csv (0.", release_version, ")")
+  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
 
   # Load Spreadsheets
   stories_sheet      <- spreadsheet_name %>% googlesheets::gs_title()
@@ -30,6 +31,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   task_types         <- stories_sheet %>% googlesheets::gs_read(ws = "tasks hub")
   localisation_sh    <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_scripts")
 
+  original_length <- nrow(seasonalquest_prod)
   new_ids <- check_new_ids(design_table)
 
   if (length(new_ids) == 0) {
@@ -72,7 +74,6 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
     
     seasonalquest_prod <- seasonalquest_prod %>% rbind(new_quest) 
   }
-
   return(seasonalquest_prod)
 }
 
