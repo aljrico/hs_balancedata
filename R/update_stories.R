@@ -74,6 +74,12 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
     
     seasonalquest_prod <- seasonalquest_prod %>% rbind(new_quest) 
   }
-  return(seasonalquest_prod)
+  
+  submit_stories(seasonalquest_prod = seasonalquest_prod, 
+                 original_length = original_length, 
+                 source_folder = source_folder, 
+                 file_version = file_version)
+  
+  return(NA)
 }
 
