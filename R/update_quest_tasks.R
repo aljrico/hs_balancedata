@@ -1,5 +1,6 @@
 #' @export
 update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, economy_file) {
+  
   master_clean <- function(economy_file) {
     df <- economy_file %>%
       read_excel(sheet = "MASTER", skip = 4) %>%
@@ -16,7 +17,6 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
     }
     return(df)
   }
-
   specific_tasks <- function(new_quest, this_design_table, economy_file) {
     master_file <- master_clean(economy_file = economy_file)
     items_season <- hs.balancedata::get_season_items()
@@ -170,6 +170,8 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
           tolower()
       )]
     }
+    
+    return(new_quest)
   }
 
   maximum_number_tasks <- 3
@@ -224,7 +226,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       if (length(cols_to_fill) > 1) {
         stop("Undefined Task. Needs to update code.")
       } else {
-        source("~/ss_hs_production/quests/specific_tasks.R")
+        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, economy_file = economy_file)
       }
       if (is.na(new_quest %>% .[[paste0("task", t, " count")]])) new_quest[, paste0("task", t, " count") := 0]
     }

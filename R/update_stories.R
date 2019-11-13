@@ -58,8 +58,21 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
       hs.balancedata::update_quest_rewards(seasonalquest_prod = seasonalquest_prod,
                                            quest_id = quest_id,
                                            this_design_table = this_design_table)
+    
+    new_quest <- new_quest %>% 
+      hs.balancedata::update_quest_multichapter(quest_id = quest_id, 
+                                                this_design_table = this_design_table)
+    
+    new_quest <- new_quest %>% 
+      hs.balancedata::update_quest_tasks(seasonalquest_prod = seasonalquest_prod, 
+                                         quest_id = quest_id, 
+                                         this_design_table = this_design_table, 
+                                         task_types = task_types, 
+                                         economy_file = economy_file)
+    
+    seasonalquest_prod <- seasonalquest_prod %>% rbind(new_quest) 
   }
 
-  return(NA)
+  return(seasonalquest_prod)
 }
 
