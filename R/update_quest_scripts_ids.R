@@ -1,5 +1,5 @@
 #' @export
-update_quest_scripts_ids <- function(new_quest, seasonalquest_prod, quest_id, this_design_table) {
+update_quest_scripts_ids <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, game_folder = game_folder) {
   last_script <- c(
     seasonalquest_prod$`start script id`,
     seasonalquest_prod$`end script id`,
@@ -8,7 +8,7 @@ update_quest_scripts_ids <- function(new_quest, seasonalquest_prod, quest_id, th
     as.numeric() %>%
     max(na.rm = TRUE)
 
-  script_ids <- hs.balancedata::get_scripts_id()
+  script_ids <- hs.balancedata::get_scripts_id(game_folder = game_folder)
 
   this_event <- this_design_table$`Event Name`
   this_chapter <- this_design_table$`Chapter`

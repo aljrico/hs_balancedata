@@ -58,7 +58,8 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
         hs.balancedata::update_quest_scripts_ids(
           seasonalquest_prod = seasonalquest_prod,
           quest_id = quest_id,
-          this_design_table = this_design_table
+          this_design_table = this_design_table,
+          game_folder = game_folder
         )
 
       new_quest <- new_quest %>%
