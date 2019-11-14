@@ -21,8 +21,8 @@ gf_names <- hs.balancedata::find_game_folder_names()
 source("error_class.R")
 
 # source("ui/ui_basic_info.R")
-source("ui/ui_stories.R")
 
+source("ui/ui_stories.R")
 source("server/check_spreadsheet_existence.R")
 source("server/update_balance_data_button.R")
 

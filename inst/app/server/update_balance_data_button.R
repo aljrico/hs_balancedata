@@ -25,7 +25,7 @@ update_balance_data_button <- function(input, output, session, name) {
     if(name == 'economy'){
       update_functions[[name]](document = input[['combobox.economy_file']], game_folder = input[[game_folder_name]])
     }else if(name == 'stories'){
-      update_functions[[name]](document = input[['combobox.economy_file']], game_folder = input[[game_folder_name]])
+      update_functions[[name]](economy_file = input[['combobox.stories.economy_file']], game_folder = input[[game_folder_name]], release_version = input[['combobox.stories.economy_file']] %>% str_extract_all('[[0-9]]') %>% unlist() %>% paste(collapse = '') %>% as.numeric())
     }else{
       sh_exists <- check_spreadsheet_existence(sh_name = input[[spreadsheet_name]])
       if(sh_exists){

@@ -1,6 +1,5 @@
 #' @export
 update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, economy_file) {
-  
   master_clean <- function(economy_file) {
     df <- economy_file %>%
       read_excel(sheet = "MASTER", skip = 4) %>%
@@ -68,7 +67,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
 
       prod_id <-
         master_file %>%
-        filter(event == (event_name %>% str_remove_all(" ") %>% str_remove_all("\_.*"))) %>%
+        filter(event == (event_name %>% str_remove_all(" ") %>% str_remove_all("\\_.*"))) %>%
         mutate(clean_name = `Item Name` %>% gsub(".*[0-9]", "", .) %>% str_trim()) %>%
         filter(product %>% str_detect(clean_name)) %>%
         .[["Product"]] %>%
@@ -117,8 +116,8 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
           str_remove_all("2020") %>%
           str_remove_all("2021") %>%
           str_remove_all("Bingo") %>%
-          str_remove_all("\_1$") %>%
-          str_remove_all("\_2$") %>%
+          str_remove_all("\\_1$") %>%
+          str_remove_all("\\_2$") %>%
           # str_remove_all('_[^_]+$') %>%
           str_trim() %>%
           tolower()
@@ -130,7 +129,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       if (is.na(product)) product <- this_design_table[[paste0("Task Specifics ", t)]]
 
       ing_id <- master %>%
-        filter(event == (event_name %>% str_remove_all(" ") %>% str_remove_all("\_.*"))) %>%
+        filter(event == (event_name %>% str_remove_all(" ") %>% str_remove_all("\\_.*"))) %>%
         mutate(clean_name = `Item Name` %>% gsub(".*[0-9]", "", .) %>% str_trim()) %>%
         filter(product %>% str_detect(clean_name)) %>%
         .[["Thought"]] %>%
@@ -163,14 +162,14 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
           str_remove_all("2020") %>%
           str_remove_all("2021") %>%
           str_remove_all("Bingo") %>%
-          str_remove_all("\_1$") %>%
-          str_remove_all("\_2$") %>%
+          str_remove_all("\\_1$") %>%
+          str_remove_all("\\_2$") %>%
           # str_remove_all('_[^_]+$') %>%
           str_trim() %>%
           tolower()
       )]
     }
-    
+
     return(new_quest)
   }
 

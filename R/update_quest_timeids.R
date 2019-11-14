@@ -1,9 +1,8 @@
 #' @export
 update_quest_timeids <- function(start_date, end_date, code_name, last_time_id) {
-  
-  generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace('data/source', 'data/generated')
-  x_file <- generated_folder %>% paste0('/xml/times_prod.xml')
-  
+  generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace("data/source", "data/generated")
+  x_file <- generated_folder %>% paste0("/xml/times_prod.xml")
+
   x <-
     readr::read_file(x_file) %>%
     stringr::str_remove("</group>")

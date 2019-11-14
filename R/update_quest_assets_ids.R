@@ -1,6 +1,5 @@
 #' @export
 update_quest_assets_ids <- function(new_quest, seasonalquest_prod, quest_id, this_design_table) {
-  
   new_quest[, `# id` := quest_id, ]
   new_quest[, title := paste0("QuestTextTitle", "_", this_design_table$`Event Name`, "_", quest_id)]
   new_quest[, description := paste0("QuestTextDescription", "_", this_design_table$`Event Name`, "_", quest_id)]
@@ -12,6 +11,6 @@ update_quest_assets_ids <- function(new_quest, seasonalquest_prod, quest_id, thi
   new_quest[, `complete actor id` := this_design_table$`Actor ID`]
   new_quest[, `expire actor id` := this_design_table$`Actor ID`]
   new_quest[, `actor animation` := this_design_table$`Actor Animation`]
-  
+
   return(new_quest)
 }

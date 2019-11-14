@@ -25,11 +25,11 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
 
   # Load Spreadsheets
-  stories_sheet      <- spreadsheet_name %>% googlesheets::gs_title()
-  design_table       <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_design")
+  stories_sheet <- spreadsheet_name %>% googlesheets::gs_title()
+  design_table <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_design")
   seasonalquest_prod <- stories_sheet %>% googlesheets::gs_read(ws = file_version)
-  task_types         <- stories_sheet %>% googlesheets::gs_read(ws = "tasks hub")
-  localisation_sh    <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_scripts")
+  task_types <- stories_sheet %>% googlesheets::gs_read(ws = "tasks hub")
+  localisation_sh <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_scripts")
 
   original_length <- nrow(seasonalquest_prod)
   new_ids <- check_new_ids(design_table)
@@ -41,45 +41,59 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   for (q in seq_along(new_ids)) {
     quest_id <- new_ids[[q]]
     this_design_table <- design_table %>% dplyr::filter(`Quest ID` == quest_id)
-    
+
     new_quest <- seasonalquest_prod %>%
       tail(1) %>%
       data.table::data.table()
-    
-    new_quest <- new_quest %>% 
-      hs.balancedata::update_quest_assets_ids(seasonalquest_prod = seqsonalquest_prod, 
-                                              quest_id = quest_id, 
-                                              this_design_table = this_design_table)
-    
-    new_quest <- new_quest %>% 
-      hs.balancedata::update_quest_scripts_ids(seasonalquest_prod = seasonalquest_prod, 
-                                               quest_id = quest_id, 
-                                               this_design_table = this_design_table)
-    
-    new_quest <- new_quest %>% 
-      hs.balancedata::update_quest_rewards(seasonalquest_prod = seasonalquest_prod,
-                                           quest_id = quest_id,
-                                           this_design_table = this_design_table)
-    
-    new_quest <- new_quest %>% 
-      hs.balancedata::update_quest_multichapter(quest_id = quest_id, 
-                                                this_design_table = this_design_table)
-    
-    new_quest <- new_quest %>% 
-      hs.balancedata::update_quest_tasks(seasonalquest_prod = seasonalquest_prod, 
-                                         quest_id = quest_id, 
-                                         this_design_table = this_design_table, 
-                                         task_types = task_types, 
-                                         economy_file = economy_file)
-    
-    seasonalquest_prod <- seasonalquest_prod %>% rbind(new_quest) 
+
+    if (prod_checkbox) {
+      new_quest <- new_quest %>%
+        hs.balancedata::update_quest_assets_ids(
+          seasonalquest_prod = seqsonalquest_prod,
+          quest_id = quest_id,
+          this_design_table = this_design_table
+        )
+
+      new_quest <- new_quest %>%
+        hs.balancedata::update_quest_scripts_ids(
+          seasonalquest_prod = seasonalquest_prod,
+          quest_id = quest_id,
+          this_design_table = this_design_table
+        )
+
+      new_quest <- new_quest %>%
+        hs.balancedata::update_quest_rewards(
+          seasonalquest_prod = seasonalquest_prod,
+          quest_id = quest_id,
+          this_design_table = this_design_table
+        )
+
+      new_quest <- new_quest %>%
+        hs.balancedata::update_quest_multichapter(
+          quest_id = quest_id,
+          this_design_table = this_design_table
+        )
+
+      new_quest <- new_quest %>%
+        hs.balancedata::update_quest_tasks(
+          seasonalquest_prod = seasonalquest_prod,
+          quest_id = quest_id,
+          this_design_table = this_design_table,
+          task_types = task_types,
+          economy_file = economy_file
+        )
+    }
+
+
+    seasonalquest_prod <- seasonalquest_prod %>% rbind(new_quest)
   }
-  
-  submit_stories(seasonalquest_prod = seasonalquest_prod, 
-                 original_length = original_length, 
-                 source_folder = source_folder, 
-                 file_version = file_version)
-  
+
+  submit_stories(
+    seasonalquest_prod = seasonalquest_prod,
+    original_length = original_length,
+    source_folder = source_folder,
+    file_version = file_version
+  )
+
   return(NA)
 }
-
