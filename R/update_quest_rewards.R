@@ -38,7 +38,7 @@ update_quest_rewards <- function(new_quest, seasonalquest_prod, quest_id, this_d
     extract_rewards() %>%
     .[["rewards"]]
 
-  number_rewards <- length(rws)
+  number_rewards <- length(rewards)
   voucher_list <- c("Bronze", "Silver", "Gold", "Rainbow")
   voucher_ids <- c(145004, 145003, 145002, 145001)
   for (i in 1:number_rewards) {
