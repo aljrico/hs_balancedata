@@ -1,5 +1,5 @@
 #' @export
-update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "homestreet", economy_file, release_version) {
+update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "homestreet", economy_file, release_version, prod_checkbox) {
   check_new_ids <- function(design_table) {
     design_table %>%
       dplyr::filter(`Accepted` == "ok") %>%
