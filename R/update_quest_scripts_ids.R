@@ -45,7 +45,7 @@ update_quest_scripts_ids <- function(new_quest, seasonalquest_prod, quest_id, th
       `+`(1)
   }
 
-  if (!is.na(this_quest_human$`Intro Text`)) {
+  if (!is.na(this_design_table$`Intro Text`)) {
     new_quest[, `start script id` := new_script]
   }
   return(new_quest)
