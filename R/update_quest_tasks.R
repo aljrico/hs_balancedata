@@ -194,6 +194,9 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
   maximum_number_tasks <- 3
 
   for (t in maximum_number_tasks) {
+    
+    this_task <- this_design_table[[paste0('Task Action ', t)]]
+    
     this_task_data <-
       task_types %>%
       dplyr::filter(Category == this_design_table[[paste0("Task Action ", t)]]) %>%
