@@ -1,5 +1,24 @@
 #' @export
 update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, economy_file) {
+  
+  specific_columns <- c('product id', 
+                        'workstation id', 
+                        'thought id', 
+                        'ConsumeIngredient ingredient id', 
+                        'QuestProgress createRewardIcon', 
+                        "OwnItem item ids (separator '|')",
+                        "LevelUpRelationship status level",
+                        "PurchaseShopItem category",
+                        "PurchaseShopItem subcategory",
+                        "PurchaseShopItem useCoins",
+                        "AvatarInteraction interactionId",
+                        "AvatarInteraction cost itemId",
+                        "AvatarInteraction cost count",
+                        "PlayerInteraction uniqueInteraction",
+                        "NpcInteraction npcId",
+                        "ViewBillboardVideo videoCampaignId",
+                        "ViewBillboardVideo videoId")
+  
   master_clean <- function(economy_file) {
     df <- economy_file %>%
       read_excel(sheet = "MASTER", skip = 4) %>%
