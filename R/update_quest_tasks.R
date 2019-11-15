@@ -1,24 +1,26 @@
 #' @export
 update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, economy_file) {
-  
-  specific_columns <- c('product id', 
-                        'workstation id', 
-                        'thought id', 
-                        'ConsumeIngredient ingredient id', 
-                        'QuestProgress createRewardIcon', 
-                        "OwnItem item ids (separator '|')",
-                        "LevelUpRelationship status level",
-                        "PurchaseShopItem category",
-                        "PurchaseShopItem subcategory",
-                        "PurchaseShopItem useCoins",
-                        "AvatarInteraction interactionId",
-                        "AvatarInteraction cost itemId",
-                        "AvatarInteraction cost count",
-                        "PlayerInteraction uniqueInteraction",
-                        "NpcInteraction npcId",
-                        "ViewBillboardVideo videoCampaignId",
-                        "ViewBillboardVideo videoId")
-  
+  items_season <- hs.balancedata::get_season_items()
+  specific_columns <- c(
+    "product id",
+    "workstation id",
+    "thought id",
+    "ConsumeIngredient ingredient id",
+    "QuestProgress createRewardIcon",
+    "OwnItem item ids (separator '|')",
+    "LevelUpRelationship status level",
+    "PurchaseShopItem category",
+    "PurchaseShopItem subcategory",
+    "PurchaseShopItem useCoins",
+    "AvatarInteraction interactionId",
+    "AvatarInteraction cost itemId",
+    "AvatarInteraction cost count",
+    "PlayerInteraction uniqueInteraction",
+    "NpcInteraction npcId",
+    "ViewBillboardVideo videoCampaignId",
+    "ViewBillboardVideo videoId"
+  )
+
   master_clean <- function(economy_file) {
     df <- economy_file %>%
       readxl::read_excel(sheet = "MASTER", skip = 4) %>%
@@ -35,9 +37,8 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
     }
     return(df)
   }
-  specific_tasks <- function(new_quest, this_design_table, economy_file, this_task) {
+  specific_tasks <- function(new_quest, this_design_table, economy_file, this_task, items_season) {
     master_file <- master_clean(economy_file = economy_file)
-    items_season <- hs.balancedata::get_season_items()
 
     if (this_task == "Own an item") {
       new_quest[, paste0("task", t, " skip cash") := this_design_table[[paste0("Task Skip Cost ", t)]]]
@@ -54,7 +55,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       }
 
       item_id <-
-        items_season %>% 
+        items_season %>%
         dplyr::filter(Item %in% this_specific) %>%
         .$Id %>%
         as.numeric() %>%
@@ -146,9 +147,11 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
 
       if (is.na(product)) product <- this_design_table[[paste0("Task Specifics ", t)]]
 
-      ing_id <- master %>%
+      ing_id <- master_file %>%
         dplyr::filter(event == (event_name %>% stringr::str_remove_all(" ") %>% stringr::str_remove_all("\\_.*"))) %>%
-        dplyr::mutate(clean_name = `Item Name` %>% gsub(".*[0-9]", "", .) %>% stringr::str_trim()) %>%
+        dplyr::mutate(clean_name = `Item Name` %>% gsub(".*[0-9]", "", .) %>% stringr::str_trim()) %>% 
+        dplyr::filter(!is.na(clean_name)) %>%
+        dplyr::filter(product != '') %>% 
         dplyr::filter(product %>% stringr::str_detect(clean_name)) %>%
         .[["Thought"]] %>%
         .[[length(.)]] %>%
@@ -193,10 +196,9 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
 
   maximum_number_tasks <- 3
 
-  for (t in 1:maximum_number_tasks) {
-    
-    this_task <- this_design_table[[paste0('Task Action ', t)]]
-    
+  for (t in (1:maximum_number_tasks)) {
+    this_task <- this_design_table[[paste0("Task Action ", t)]]
+
     this_task_data <-
       task_types %>%
       dplyr::filter(Category == this_design_table[[paste0("Task Action ", t)]]) %>%
@@ -246,7 +248,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       if (length(cols_to_fill) > 1) {
         stop("Undefined Task. Needs to update code.")
       } else {
-        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, economy_file = economy_file, this_task = this_task)
+        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, economy_file = economy_file, this_task = this_task, items_season = items_season)
       }
       if (is.na(new_quest %>% .[[paste0("task", t, " count")]])) new_quest[, paste0("task", t, " count") := 0]
     }
