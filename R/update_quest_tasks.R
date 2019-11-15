@@ -253,4 +253,5 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       if (is.na(new_quest %>% .[[paste0("task", t, " count")]])) new_quest[, paste0("task", t, " count") := 0]
     }
   }
+  return(new_quest)
 }
