@@ -1,5 +1,5 @@
 #' @export
-submit_stories <- function(seasonalquest_prod, original_length, source_folder, file_version){
+submit_stories <- function(spreadsheet_title, seasonalquest_prod, original_length, source_folder, file_version){
   if(nrow(seasonalquest_prod[-(1:original_length),]) < 1){
     stop('No new Quests to add')
   }else{
