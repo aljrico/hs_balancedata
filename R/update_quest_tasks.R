@@ -1,5 +1,5 @@
 #' @export
-update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, economy_file) {
+update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, spark_economy_file) {
   items_season <- hs.balancedata::get_season_items()
   specific_columns <- c(
     "product id",
@@ -21,8 +21,8 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
     "ViewBillboardVideo videoId"
   )
 
-  master_clean <- function(economy_file) {
-    df <- economy_file %>%
+  master_clean <- function(spark_economy_file) {
+    df <- spark_economy_file %>%
       readxl::read_excel(sheet = "MASTER", skip = 4) %>%
       dplyr::select(-`...1`, -`...2`)
 
@@ -37,8 +37,8 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
     }
     return(df)
   }
-  specific_tasks <- function(new_quest, this_design_table, economy_file, this_task, items_season) {
-    master_file <- master_clean(economy_file = economy_file)
+  specific_tasks <- function(new_quest, this_design_table, spark_economy_file, this_task, items_season) {
+    master_file <- master_clean(spark_economy_file = spark_economy_file)
 
     if (this_task == "Own an item") {
       new_quest[, paste0("task", t, " skip cash") := this_design_table[[paste0("Task Skip Cost ", t)]]]
@@ -248,7 +248,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       if (length(cols_to_fill) > 1) {
         stop("Undefined Task. Needs to update code.")
       } else {
-        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, economy_file = economy_file, this_task = this_task, items_season = items_season)
+        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, spark_economy_file = spark_economy_file, this_task = this_task, items_season = items_season)
       }
       if (is.na(new_quest %>% .[[paste0("task", t, " count")]])) new_quest[, paste0("task", t, " count") := 0]
     }

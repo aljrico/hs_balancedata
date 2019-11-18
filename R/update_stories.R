@@ -81,7 +81,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
           quest_id = quest_id,
           this_design_table = this_design_table,
           task_types = task_types,
-          economy_file = spark_economy_file
+          spark_economy_file = spark_economy_file
         )
     }
 
