@@ -1,6 +1,5 @@
 #' @export
 update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "homestreet", economy_file, release_version, prod_checkbox) {
-  cat(economy_file)
   check_new_ids <- function(design_table) {
     design_table %>%
       dplyr::filter(`Accepted` == "ok") %>%
@@ -21,7 +20,8 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
 
   # Set up initial files
   economy_path <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
-  spark_economy_file <- paste0(economy_path, economy_file)
+  # spark_economy_file <- paste0(economy_path, economy_file)
+  spark_economy_file <- economy_file
   file_version <- paste0("seasonalquests_prod.csv (0.", release_version, ")")
   source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
 
