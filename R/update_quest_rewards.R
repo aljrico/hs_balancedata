@@ -18,6 +18,8 @@ update_quest_rewards <- function(new_quest, seasonalquest_prod, quest_id, this_d
     }
     return(list(quantities = quantities, rewards = rewards))
   }
+  
+  items_prices <- hs.balancedata::get_season_items()
 
   # Resetting all values
   new_quest[, `cash reward` := NA]
