@@ -17,7 +17,6 @@ update_economy <- function(document, game_folder){
     'guildevents_prod.csv',
     'bingoevents_prod.csv',
     'bingoeventmysteryboxes.csv',
-    
     'guildeventmysteryboxes.csv'
   )
   convert_na <- function(x) ifelse(x == 'NA', NA, x) %>% return()
