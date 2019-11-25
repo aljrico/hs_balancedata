@@ -4,15 +4,15 @@ submit_stories <- function(spreadsheet_title, seasonalquest_prod, original_lengt
     stop('No new Quests to add')
   }else{
     spreadsheet_title %>% 
-      gs_title() %>% 
-      gs_add_row(ws = file_version, 
+      googlesheets::gs_title() %>% 
+      googlesheets::gs_add_row(ws = file_version, 
                  input = seasonalquest_prod[-(1:original_length),]
       )
     
     spreadsheet_title %>%
-      gs_title() %>%
-      gs_read(ws = file_version) %>%
-      fwrite(paste0(source_folder, '/csv/seasonalquests_prod.csv'))
+      googlesheets::gs_title() %>%
+      googlesheets::gs_read(ws = file_version) %>%
+      data.table::fwrite(paste0(source_folder, '/csv/seasonalquests_prod.csv'))
   }
   
 }
