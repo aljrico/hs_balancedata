@@ -25,7 +25,8 @@ Imports:
     xml2,
     lubridate,
     purrr,
-    safer
+    safer,
+    readr
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)

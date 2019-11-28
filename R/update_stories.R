@@ -1,5 +1,5 @@
 #' @export
-update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "homestreet", economy_file, release_version, prod_checkbox) {
+update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "homestreet", economy_file, release_version, prod_checkbox, loc_checkbox, scripts_checkbox) {
   check_new_ids <- function(design_table) {
     design_table %>%
       dplyr::filter(`Accepted` == "ok") %>%
@@ -83,6 +83,22 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
           task_types = task_types,
           spark_economy_file = spark_economy_file
         )
+    }
+    
+    if(loc_checkbox){
+      new_quest %>% hs.balancedata::update_quest_localisation(
+        seasonalquest_prod = seasonalquest_prod, 
+        quest_id = quest_id, 
+        this_design_table = this_design_table, 
+        game_folder = game_folder) 
+    }
+    
+    if(scripts_checkbox){
+      new_quest %>% update_quest_script_file(
+        seasonalquest_prod = seasonalquest_prod, 
+        quest_id = quest_id, 
+        this_design_table = this_design_table, 
+        game_folder = game_folder)
     }
 
 

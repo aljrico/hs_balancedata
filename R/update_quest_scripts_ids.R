@@ -1,5 +1,5 @@
 #' @export
-update_quest_scripts_ids <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, game_folder = game_folder) {
+update_quest_scripts_ids <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, game_folder) {
   last_script <- c(
     seasonalquest_prod$`start script id`,
     seasonalquest_prod$`end script id`,
