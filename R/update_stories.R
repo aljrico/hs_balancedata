@@ -25,7 +25,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
 
   # Load Spreadsheets
-  stories_sheet <- spreadsheet_name %>% googlesheets::gs_title()
+  stories_sheet <<- spreadsheet_name %>% googlesheets::gs_title()
   design_table <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_design")
   seasonalquest_prod <- stories_sheet %>% googlesheets::gs_read(ws = file_version)
   task_types <- stories_sheet %>% googlesheets::gs_read(ws = "tasks hub")

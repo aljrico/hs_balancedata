@@ -54,8 +54,7 @@ update_quest_localisation <- function(new_quest, seasonalquest_prod, quest_id, t
     dplyr::select(`String.Identifier`, `String.Description`, everything()) %>% 
     dplyr::filter(!(English %>% is.na()))
   
-  spreadsheet_title %>% 
-    googlesheets::gs_title() %>% 
+  stories_sheet %>% 
     googlesheets::gs_add_row(ws = "seasonal_scripts", 
                input = loc_df %>% data.table::data.table()
     )
