@@ -29,7 +29,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
   design_table <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_design")
   seasonalquest_prod <- stories_sheet %>% googlesheets::gs_read(ws = file_version)
   task_types <- stories_sheet %>% googlesheets::gs_read(ws = "tasks hub")
-  localisation_sh <- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_scripts")
+  localisation_sh <<- stories_sheet %>% googlesheets::gs_read(ws = "seasonal_scripts")
 
   original_length <- nrow(seasonalquest_prod)
   new_ids <- check_new_ids(design_table)
