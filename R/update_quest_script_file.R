@@ -1,5 +1,9 @@
 #' @export
 update_quest_script_file <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, game_folder){
+  
+  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
+  script_file <- paste0(source_folder, '/xml/scripts.xml')
+  
   script_ids <- hs.balancedata::get_scripts_id(game_folder = game_folder)
   last_script_id <- script_ids %>% tail(1) %>% .$id %>% as.numeric()
   
@@ -12,7 +16,7 @@ update_quest_script_file <- function(new_quest, seasonalquest_prod, quest_id, th
   script_super_categories <- c('Intro')
   
   
-  scripts_txt <- readr::read_file('~/homestreet/Assets/data/source/xml/scripts.xml') %>% stringr::str_remove('\r\n</group>\r\n')
+  scripts_txt <- readr::read_file(script_file) %>% stringr::str_remove('\r\n</group>\r\n')
   
   new_actor_id_script <- this_design_table$`Actor ID` %>% as.character()
   new_whole_quest_script <- c()
@@ -48,6 +52,6 @@ update_quest_script_file <- function(new_quest, seasonalquest_prod, quest_id, th
   }
   
   
-  scripts_txt %>% stringr::str_remove_all('</group>') %>% paste0('\r\n</group>\r\n') %>%  readr::write_file('~/homestreet/Assets/data/source/xml/scripts.xml')
+  scripts_txt %>% stringr::str_remove_all('</group>') %>% paste0('\r\n</group>\r\n') %>%  readr::write_file(script_file)
   
 }
