@@ -20,7 +20,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
 
   # Set up initial files
   economy_path <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
-  spark_economy_file <- paste0(economy_path, '/', economy_file)
+  spark_economy_file <- paste0(economy_path, "/", economy_file)
   file_version <- paste0("seasonalquests_prod.csv (0.", release_version, ")")
   source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
 
@@ -54,6 +54,11 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
           this_design_table = this_design_table
         )
 
+      new_quest <- new_quest %>% update_quest_timeids(
+        this_design_table = this_design_table,
+        update_times_xml = FALSE
+      )
+
       new_quest <- new_quest %>%
         hs.balancedata::update_quest_scripts_ids(
           seasonalquest_prod = seasonalquest_prod,
@@ -84,22 +89,24 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
           spark_economy_file = spark_economy_file
         )
     }
-    
-    if(loc_checkbox){
+
+    if (loc_checkbox) {
       new_quest %>% hs.balancedata::update_quest_localisation(
-        seasonalquest_prod = seasonalquest_prod, 
-        quest_id = quest_id, 
-        this_design_table = this_design_table, 
+        seasonalquest_prod = seasonalquest_prod,
+        quest_id = quest_id,
+        this_design_table = this_design_table,
         game_folder = game_folder,
-        localisation_sh = localisation_sh) 
+        localisation_sh = localisation_sh
+      )
     }
-    
-    if(scripts_checkbox){
+
+    if (scripts_checkbox) {
       new_quest %>% update_quest_script_file(
-        seasonalquest_prod = seasonalquest_prod, 
-        quest_id = quest_id, 
-        this_design_table = this_design_table, 
-        game_folder = game_folder)
+        seasonalquest_prod = seasonalquest_prod,
+        quest_id = quest_id,
+        this_design_table = this_design_table,
+        game_folder = game_folder
+      )
     }
 
 

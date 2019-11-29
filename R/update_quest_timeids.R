@@ -1,5 +1,5 @@
 #' @export
-update_quest_timeids <- function(new_quest, update_times_xml = FALSE) {
+update_quest_timeids <- function(new_quest, this_design_table, update_times_xml = FALSE) {
   event_dates  <- hs.balancedata::get_event_dates()  %>% dplyr::mutate(type = "event")
   season_dates <- hs.balancedata::get_season_dates() %>% dplyr::mutate(type = "season")
   bingo_dates  <- hs.balancedata::get_bingo_dates()  %>% dplyr::mutate(type = "bingo")
