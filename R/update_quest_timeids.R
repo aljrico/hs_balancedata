@@ -1,9 +1,9 @@
 #' @export
-update_quest_timeids <- function(new_quest, this_design_table, update_times_xml = FALSE) {
-  event_dates  <- hs.balancedata::get_event_dates()  %>% dplyr::mutate(type = "event")
-  season_dates <- hs.balancedata::get_season_dates() %>% dplyr::mutate(type = "season")
-  bingo_dates  <- hs.balancedata::get_bingo_dates()  %>% dplyr::mutate(type = "bingo")
-  quest_dates  <- hs.balancedata::get_quest_dates()  %>% dplyr::mutate(type = "quest")
+update_quest_timeids <- function(new_quest, this_design_table, game_folder, update_times_xml = FALSE) {
+  event_dates  <- hs.balancedata::get_event_dates(game_folder = game_folder)  %>% dplyr::mutate(type = "event")
+  season_dates <- hs.balancedata::get_season_dates(game_folder = game_folder) %>% dplyr::mutate(type = "season")
+  bingo_dates  <- hs.balancedata::get_bingo_dates(game_folder = game_folder)  %>% dplyr::mutate(type = "bingo")
+  quest_dates  <- hs.balancedata::get_quest_dates(game_folder = game_folder)  %>% dplyr::mutate(type = "quest")
 
   time_ids <- event_dates %>%
     base::rbind(season_dates) %>%

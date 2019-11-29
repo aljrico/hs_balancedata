@@ -56,6 +56,7 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
 
       new_quest <- new_quest %>% update_quest_timeids(
         this_design_table = this_design_table,
+        game_folder,
         update_times_xml = FALSE
       )
 
