@@ -73,7 +73,7 @@ get_event_dates <- function(game_folder) {
 }
 
 #' @export
-get_season_dates <- function(){
+get_season_dates <- function(game_folder){
   generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace("data/source", "data/generated")
   x_file <- generated_folder %>% paste0("/xml/times_prod.xml")
   x <- xml2::read_xml(x_file)
@@ -136,7 +136,7 @@ get_season_dates <- function(){
 }
 
 #' @export
-get_bingo_dates <- function(){
+get_bingo_dates <- function(game_folder){
   generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace("data/source", "data/generated")
   x_file <- generated_folder %>% paste0("/xml/times_prod.xml")
   x <- xml2::read_xml(x_file)
@@ -200,7 +200,7 @@ get_bingo_dates <- function(){
 }
 
 #' @export
-get_quest_dates <- function(){
+get_quest_dates <- function(game_folder){
   generated_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% stringr::str_replace("data/source", "data/generated")
   x_file <- generated_folder %>% paste0("/xml/times_prod.xml")
   x <- xml2::read_xml(x_file)
@@ -262,7 +262,7 @@ get_quest_dates <- function(){
 }
 
 #' @export
-get_bundle_dates <- function(){
+get_bundle_dates <- function(game_folder){
   '(HS) timediaps' %>% 
     googlesheets::gs_title() %>% 
     googlesheets::gs_read(ws = 'timediaps_prod') %>% 
