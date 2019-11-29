@@ -90,7 +90,8 @@ update_stories <- function(spreadsheet_name = "(HS) stories", game_folder = "hom
         seasonalquest_prod = seasonalquest_prod, 
         quest_id = quest_id, 
         this_design_table = this_design_table, 
-        game_folder = game_folder) 
+        game_folder = game_folder,
+        localisation_sh = localisation_sh) 
     }
     
     if(scripts_checkbox){

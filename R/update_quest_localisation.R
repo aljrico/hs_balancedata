@@ -1,5 +1,5 @@
 #' @export
-update_quest_localisation <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, game_folder){
+update_quest_localisation <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, game_folder, localisation_sh){
   
   loc <- localisation_sh %>% tail(1) %>% data.frame()
   loc[1,] <- NA
