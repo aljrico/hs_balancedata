@@ -1,6 +1,5 @@
 #' @export
-update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, spark_economy_file) {
-  items_season <- hs.balancedata::get_season_items()
+update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_design_table, task_types, spark_economy_file, season_items) {
   specific_columns <- c(
     "product id",
     "workstation id",
@@ -37,7 +36,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
     }
     return(df)
   }
-  specific_tasks <- function(new_quest, this_design_table, spark_economy_file, this_task, items_season) {
+  specific_tasks <- function(new_quest, this_design_table, spark_economy_file, this_task, season_items) {
     master_file <- master_clean(spark_economy_file = spark_economy_file)
 
     if (this_task == "Own an item") {
@@ -55,7 +54,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       }
 
       item_id <-
-        items_season %>%
+        season_items %>%
         dplyr::filter(Item %in% this_specific) %>%
         .$Id %>%
         as.numeric() %>%
@@ -248,7 +247,7 @@ update_quest_tasks <- function(new_quest, seasonalquest_prod, quest_id, this_des
       if (length(cols_to_fill) > 1) {
         stop("Undefined Task. Needs to update code.")
       } else {
-        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, spark_economy_file = spark_economy_file, this_task = this_task, items_season = items_season)
+        new_quest <- specific_tasks(new_quest = new_quest, this_design_table = this_design_table, spark_economy_file = spark_economy_file, this_task = this_task, season_items = season_items)
       }
       if (is.na(new_quest %>% .[[paste0("task", t, " count")]])) new_quest[, paste0("task", t, " count") := 0]
     }
