@@ -2,6 +2,7 @@
 update_economy <- function(document, game_folder){
   
   economy_path <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
+  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
   
   spark_economy_file <- paste0(economy_path, '/', document)
   
@@ -154,11 +155,10 @@ update_economy <- function(document, game_folder){
     
     to_write %>% 
       data.table::fwrite(
-        paste0('~/homestreet/Assets/data/source/csv/', sheet_name),
+        paste0(source_folder, sheet_name),
         na = ''
       )
   }
-  
   
 }
 
