@@ -155,7 +155,7 @@ update_economy <- function(document, game_folder){
     
     to_write %>% 
       data.table::fwrite(
-        paste0(source_folder, '/', sheet_name),
+        paste0(source_folder, '/csv/', sheet_name),
         na = ''
       )
   }
