@@ -47,11 +47,10 @@ find_source_folder <- function(game_folder = NA) {
     origin_folders <- origin_folders[!(origin_folders %>% stringr::str_detect('.meta'))]
     
     counter_finding_game_folder <- counter_finding_game_folder + 1
-    if(counter_finding_game_folder > 1e4) stop('No game was found.')
     if(counter_finding_game_folder > 1e4) stop('SHINY APP ERROR: No game was found in the system. Please make sure you have the Git repositories prorperly cloned in your machine.')
   }
 
-  source_folder <- origin_folders[origin_folders %>% check_condition()]
+  source_folder <- origin_folders[origin_folders %>% check_condition()] %>% .[[1]]
   return(source_folder)
 }
 
