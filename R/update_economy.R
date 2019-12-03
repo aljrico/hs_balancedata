@@ -1,8 +1,8 @@
 #' @export
 update_economy <- function(document, game_folder){
   
-  economy_path <- hs.balancedata::find_economy_document_folder(game_folder = game_folder)
-  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder)
+  economy_path <- hs.balancedata::find_economy_document_folder(game_folder = game_folder) %>% .[[1]]
+  source_folder <- hs.balancedata::find_source_folder(game_folder = game_folder) %>% .[[1]]
   
   spark_economy_file <- paste0(economy_path, '/', document)
   

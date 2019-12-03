@@ -50,7 +50,7 @@ find_source_folder <- function(game_folder = NA) {
     if(counter_finding_game_folder > 1e4) stop('SHINY APP ERROR: No game was found in the system. Please make sure you have the Git repositories prorperly cloned in your machine.')
   }
 
-  source_folder <- origin_folders[origin_folders %>% check_condition()] %>% .[[1]]
+  source_folder <- origin_folders[origin_folders %>% check_condition()]
   return(source_folder)
 }
 
